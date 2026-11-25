@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>浮生引 · 古风抉择</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="grain"></div>
+<div class="bg-mountains"></div>
+<div class="bg-clouds"></div>
+
+<!-- ============ 起 ============ -->
+<section id="screen-title" class="screen active">
+  <span class="couplet left">一念之间　一生之内</span>
+  <span class="couplet right">二十二朝十二身　七十六种归途</span>
+  <div class="title-wrap">
+    <div class="title-head">
+      <div class="title-sun" aria-hidden="true"></div>
+      <div class="seal-mark">浮生</div>
+      <h1 class="game-title">浮 生 引</h1>
+    </div>
+    <p class="game-sub">一 念 之 间 · 一 生 之 内</p>
+    <p class="game-prelude">
+      天地如棋局，人皆棋子。<br>
+      然棋子亦有一二自走之机。
+    </p>
+    <div class="title-actions">
+      <button class="btn-ink" id="btn-start">入 局</button>
+      <button class="btn-ink btn-continue" id="btn-continue" disabled>续 前 局</button>
+      <p class="save-hint" id="save-hint"></p>
+    </div>
+    <button class="btn-ghost btn-dex" id="btn-dex">结 局 图 鉴</button>
+    <button class="btn-ghost" id="btn-ai">叙 事 AI</button>
+    <p class="title-foot">半文半白 · 无现代之物 · 命数在暗处</p>
+  </div>
+</section>
+
+<!-- ============ 择朝 ============ -->
+<section id="screen-dynasty" class="screen">
+  <div class="pick-wrap">
+    <p class="pick-kicker">其 一 · 择 朝</p>
+    <h2 class="pick-title">你生在何朝</h2>
+    <p class="pick-note">一朝一世，世相不同。同样的抉择，放在不同的年月里，落下的回响亦不同。</p>
+    <div class="card-grid" id="dynasty-grid"></div>
+  </div>
+</section>
+
+<!-- ============ 捏人（09） ============ -->
+<section id="screen-origin" class="screen">
+  <div class="pick-wrap">
+    <p class="pick-kicker">其 二 · 捏 人</p>
+    <h2 class="pick-title">你落在何家</h2>
+    <p class="pick-note">皮囊既定，先天之势与天生之枷便一并落下。有些路，只有某些出身走得进去；有些路，某些出身一踏便死。</p>
+
+    <div class="create-top">
+      <input id="create-name" class="create-input" maxlength="4" placeholder="姓 名 · 留 空 随 机">
+      <div class="create-genders">
+        <button type="button" id="create-gender-m" class="btn-gender sel">男</button>
+        <button type="button" id="create-gender-f" class="btn-gender">女</button>
+      </div>
+    </div>
+
+    <div class="create-mid">
+      <div class="panel-block corners create-panel">
+        <div class="panel-label">天 赋 六 点</div>
+        <div id="create-points"></div>
+        <div id="create-attr-hint" class="create-hint">—</div>
+      </div>
+      <div class="panel-block corners create-panel">
+        <div class="panel-label">秉 性</div>
+        <div id="create-bent-list"></div>
+      </div>
+    </div>
+
+    <div class="panel-block corners create-panel create-vow">
+      <div class="panel-label">立 誓 · 可 不 立</div>
+      <div id="vow-list"></div>
+    </div>
+
+    <div class="card-grid origin-grid" id="origin-grid"></div>
+    <div class="create-actions">
+      <button class="btn-ink" id="btn-create">入 世</button>
+      <button class="btn-ghost" id="btn-back-dynasty">← 改择朝代</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 演 ============ -->
+<section id="screen-play" class="screen">
+  <div class="play-layout">
+
+    <aside class="panel-left corners">
+      <div class="panel-block">
+        <div class="panel-label">身 世</div>
+        <div class="id-line" id="id-identity">—</div>
+        <div class="id-line dim" id="id-origin">—</div>
+        <div class="id-line dim" id="id-stage">—</div>
+        <div class="id-line dim" id="id-vow" style="display:none"></div>
+        <div class="id-line dim" id="id-power"></div>
+        <div class="id-line omen-line" id="id-omen" style="display:none"></div>
+      </div>
+      <div class="panel-block">
+        <div class="panel-label">五 行</div>
+        <div id="attr-list"></div>
+      </div>
+      <div class="panel-block panel-foot">
+        <div class="panel-label">行 止</div>
+        <div id="dim-list"></div>
+      </div>
+    </aside>
+
+    <main class="scroll-main">
+      <div class="rod" aria-hidden="true"></div>
+      <div class="scroll-top">
+        <span class="time-stamp" id="time-stamp">—</span>
+        <span class="loc-stamp" id="loc-stamp">—</span>
+      </div>      <div class="offer-strip" id="offer-strip" style="display:none"></div>      <div class="scroll-body">
+        <div class="scroll-inner" id="story-text"></div>
+        <div class="result-block" id="result-block"></div>
+        <div class="choice-head" id="choice-head">▷ 可 选 抉 择</div>
+        <div class="choices" id="choices"></div>
+      </div>
+      <div class="scroll-foot">
+        <button class="btn-text" id="btn-log">行 止 录</button>
+        <button class="btn-text" id="btn-restart">重 开 一 局</button>
+      </div>
+      <div class="rod" aria-hidden="true"></div>
+    </main>
+
+    <aside class="panel-right corners">
+      <div class="panel-block">
+        <div class="panel-label">故 人<button class="btn-text btn-web" id="btn-web">关 系</button></div>
+        <div class="bond-list" id="bond-list"></div>
+      </div>
+      <div class="panel-block panel-log">
+        <div class="panel-label">行 止 录</div>
+        <div class="log-list" id="log-list"></div>
+      </div>
+    </aside>
+
+  </div>
+</section>
+
+<!-- ============ 终 ============ -->
+<section id="screen-ending" class="screen">
+  <div class="ending-wrap corners">
+    <p class="ending-kicker">终 章</p>
+    <div class="ending-head">
+      <h2 class="ending-name" id="ending-name">—</h2>
+      <div class="seal ending-tier" id="ending-tier"></div>
+    </div>
+    <p class="ending-dex" id="ending-dex"></p>
+    <div class="ending-rule"></div>
+    <p class="ending-verdict" id="ending-verdict"></p>
+    <div class="ending-epilogue" id="ending-epilogue"></div>
+
+    <div class="ending-section">
+      <div class="ending-label">生 平 复 盘</div>
+      <div id="ending-review"></div>
+    </div>
+
+    <div class="ending-section" id="ending-recall-section" style="display:none">
+      <div class="ending-label">口 述 史</div>
+      <p class="ending-hint">临终前，你挑了三段旧事，又讲了一遍。当年那段字，如今再看。</p>
+      <div id="ending-recall"></div>
+    </div>
+
+    <div class="ending-section" id="ending-omen-section" style="display:none">
+      <div class="ending-label">验　谶</div>
+      <div id="ending-omen"></div>
+    </div>
+
+    <div class="ending-section" id="ending-family-section" style="display:none">
+      <div class="ending-label">家　业</div>
+      <div id="ending-family"></div>
+    </div>
+
+    <div class="ending-section">
+      <div class="ending-label">暗 处 之 数</div>
+      <p class="ending-hint">此三数，你一生未曾见过。如今摊开，方知天命如此。</p>
+      <div class="hidden-grid" id="ending-hidden"></div>
+    </div>
+
+    <div class="ending-section">
+      <div class="ending-label">一 生 行 迹</div>
+      <div class="ending-timeline" id="ending-timeline"></div>
+    </div>
+
+    <div class="ending-section" id="legacy-block" style="display:none">
+      <div class="ending-label">遗　泽</div>
+      <p class="ending-hint" id="legacy-points"></p>
+      <div id="legacy-list"></div>
+      <button class="btn-ghost" id="btn-legacy-confirm" style="display:none">带 着 它 转 世</button>
+    </div>
+
+    <div class="ending-actions">
+      <button class="btn-ink" id="btn-again">再 世 为 人</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 弹层 ============ -->
+<div class="overlay" id="overlay-log">
+  <div class="overlay-box">
+    <div class="overlay-head"><span>行 止 录</span><button type="button" class="btn-close" id="btn-close-log">×</button></div>
+    <div class="overlay-body" id="overlay-log-body"></div>
+  </div>
+</div>
+
+<div class="overlay" id="overlay-dex">
+  <div class="overlay-box">
+    <div class="overlay-head"><span>结 局 图 鉴</span><button type="button" class="btn-close" id="btn-close-dex">×</button></div>
+    <div class="dex-progress" id="dex-progress"></div>
+    <div class="overlay-body" id="overlay-dex-body"></div>
+  </div>
+</div>
+
+<!-- 18 · AI 叙事设置 -->
+<div class="overlay" id="overlay-ai">
+  <div class="overlay-box">
+    <div class="overlay-head"><span>叙 事 AI 设 置</span><button type="button" class="btn-close" id="btn-close-ai">×</button></div>
+    <div class="overlay-body">
+      <p class="ai-note">接入 DeepSeek 只改写叙述文字，不改数值与选项。默认关闭，关闭时完全离线可玩。</p>
+      <label class="ai-row"><span>开　关</span><button type="button" class="btn-gender" id="ai-toggle">关</button></label>
+      <label class="ai-row"><span>API Key</span><input type="password" id="ai-key" class="create-input" style="flex:1" placeholder="只存于本机浏览器"></label>
+      <label class="ai-row"><span>模　型</span><input id="ai-model" class="create-input" style="flex:1" value="deepseek-chat"></label>
+      <label class="ai-row"><span>代　理</span><input id="ai-proxy" class="create-input" style="flex:1" placeholder="直连失败可填代理地址，留空直连"></label>
+      <p class="ai-note" style="color:#7a5f26">此密钥只存于本机浏览器；请勿把带密钥的页面发给他人或提交到仓库。</p>
+      <div class="ai-actions">
+        <button class="btn-text" id="ai-save">保 存</button>
+        <button class="btn-text" id="ai-clear">清 除 密 钥 与 缓 存</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 16 · 关系网 -->
+<div class="overlay" id="overlay-web">
+  <div class="overlay-box">
+    <div class="overlay-head"><span>关 系 网</span><button type="button" class="btn-close" id="btn-close-web">×</button></div>
+    <div class="overlay-body" id="overlay-web-body"></div>
+  </div>
+</div>
+
+<!-- 08 · 人物档 -->
+<div class="overlay" id="overlay-npc">
+  <div class="overlay-box">
+    <div class="overlay-head"><span id="overlay-npc-title">故 人</span><button type="button" class="btn-close" id="btn-close-npc">×</button></div>
+    <div class="overlay-body" id="overlay-npc-body"></div>
+    <div class="overlay-foot">
+      <button type="button" class="btn-text" id="btn-observe">观 人</button>
+      <span class="overlay-hint">旬日 · 心性 −1 · 每人每十年一回</span>
+      <button type="button" class="btn-text btn-foot-close" id="btn-close-npc-2">关 闭</button>
+    </div>
+  </div>
+</div>
+
+<script src="js/core/engine.js"></script>
+<script src="js/data/origins.js"></script>
+<script src="js/data/shared.js"></script>
+<script src="js/data/endings.js"></script>
+<script src="js/data/dyn-han.js"></script>
+<script src="js/data/dyn-tang.js"></script>
+<script src="js/data/dyn-song.js"></script>
+<script src="js/data/dyn-ming.js"></script>
+<script src="js/data/dyn-xia.js"></script>
+<script src="js/data/dyn-shang.js"></script>
+<script src="js/data/dyn-zhou_x.js"></script>
+<script src="js/data/dyn-chunqiu.js"></script>
+<script src="js/data/dyn-zhanguo.js"></script>
+<script src="js/data/dyn-qin.js"></script>
+<script src="js/data/dyn-xin.js"></script>
+<script src="js/data/dyn-sanguo.js"></script>
+<script src="js/data/dyn-jin_x.js"></script>
+<script src="js/data/dyn-jin_d.js"></script>
+<script src="js/data/dyn-nanbei.js"></script>
+<script src="js/data/dyn-sui.js"></script>
+<script src="js/data/dyn-wudai.js"></script>
+<script src="js/data/dyn-liao.js"></script>
+<script src="js/data/dyn-xixia.js"></script>
+<script src="js/data/dyn-jin2.js"></script>
+<script src="js/data/dyn-yuan.js"></script>
+<script src="js/data/dyn-qing.js"></script>
+<script src="js/core/ai.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
